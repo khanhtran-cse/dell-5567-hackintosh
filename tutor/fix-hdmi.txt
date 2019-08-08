@@ -1,0 +1,12 @@
+How to force RGB in Mac OS X
+These steps have been updated for Mac OS version 10.11, “El Capitan”. See below for differences for previous versions of the system.
+
+Download the patch-edid.rb script from the forums thread above, or download Andrew Daugherity’s improved patch-edid.rb script from his github page. Put the script in your home directory.
+Disable “rootless” mode, you can follow these instructions: How to modify System Integrity Protection in El Capitan.
+Reboot.
+Connect only the external monitor(s) in question, if you can (I closed my MacBook lid, for example). The script will make override files for any connected monitor.
+Type “ruby patch-edid.rb” in Terminal.
+A new folder will be created in your home directory. Move it into the “/System/Library/Displays/Contents/Resources/Overrides” folder. You may have to create the Resources and Overrides folders. If Finder tells you that you are overwriting an existing folder, consider backing it up first.
+Restart your computer. The picture quality should be fixed from this point.
+Re-enable “rootless” mode, the instructions are available on the same guide: How to modify System Integrity Protection in El Capitan.
+Reboot. Enjoy your monitor.

@@ -1,0 +1,4 @@
+Fix HeadPhone:
+Install ALCPlugFix
+Rum command: hda-verb 0x19 0x707 0x20
+Layout Id: 11/13
