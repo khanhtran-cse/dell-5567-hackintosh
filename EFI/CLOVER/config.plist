@@ -23,7 +23,7 @@
 					<key>Comment</key>
 					<string>change OSID to XSID (to avoid match against _OSI XOSI patch)</string>
 					<key>Disabled</key>
-					<true/>
+					<false/>
 					<key>Find</key>
 					<data>
 					T1NJRA==
@@ -65,7 +65,7 @@
 					<key>Comment</key>
 					<string>change EC0 to EC</string>
 					<key>Disabled</key>
-					<true/>
+					<false/>
 					<key>Find</key>
 					<data>
 					RUMwXw==
@@ -107,7 +107,7 @@
 					<key>Comment</key>
 					<string>change HDAS to HDEF</string>
 					<key>Disabled</key>
-					<false/>
+					<true/>
 					<key>Find</key>
 					<data>
 					SERBUw==
@@ -219,7 +219,6 @@
 		</dict>
 		<key>DisabledAML</key>
 		<array>
-			<string>SSDT.aml</string>
 			<string>SSDT-XCPM.aml</string>
 			<string>SSDT-PluginType1.aml</string>
 		</array>
@@ -258,7 +257,7 @@
 		<key>#DefaultVolume</key>
 		<string>LastBootedVolume</string>
 		<key>Arguments</key>
-		<string>nv_disable=1 kext-dev-mode=1 -disablegfxfirmware -cdfon -igfxnohdmi alcid=13 -radvesa -rad24</string>
+		<string>nv_disable=1 kext-dev-mode=1 -disablegfxfirmware -cdfon -igfxnohdmi -radvesa -rad24 alcid=13 lilucpu=9 </string>
 		<key>DefaultVolume</key>
 		<string>LastBootedVolume</string>
 		<key>NeverHibernate</key>
@@ -385,10 +384,12 @@
 		</array>
 		<key>Audio</key>
 		<dict>
+			<key>AFGLowPowerState</key>
+			<false/>
 			<key>Inject</key>
-			<integer>13</integer>
+			<string>No</string>
 			<key>ResetHDA</key>
-			<true/>
+			<false/>
 		</dict>
 		<key>FakeID</key>
 		<dict>
@@ -493,7 +494,7 @@
 				<string>onboard-1</string>
 				<key>AAPL,ig-platform-id</key>
 				<data>
-				AAAbWQ==
+				AAAWWQ==
 				</data>
 				<key>device-id</key>
 				<data>
