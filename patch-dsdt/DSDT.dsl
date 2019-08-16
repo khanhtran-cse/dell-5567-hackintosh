@@ -10333,7 +10333,8 @@ DefinitionBlock ("", "DSDT", 2, "DELL  ", "CBX3   ", 0x01072009)
 
     Method (_WAK, 1, NotSerialized)  // _WAK: Wake
     {
-        RWAK (Arg0)
+        If (LOr(LLess(Arg0,1),LGreater(Arg0,5))) { Store(3,Arg0) }
+RWAK (Arg0)
         \_SB.PCI0.NWAK (Arg0)
         \_SB.PCI0.LPCB.SWAK (Arg0)
         WAK (Arg0)
@@ -13624,6 +13625,21 @@ DefinitionBlock ("", "DSDT", 2, "DELL  ", "CBX3   ", 0x01072009)
                 {
                      0x00                                           
                 })
+            }
+            Device (BUS0)
+            {
+                Name (_CID, "smbus")
+                Name (_ADR, Zero)
+                Device (DVL0)
+                {
+                    Name (_ADR, 0x57)
+                    Name (_CID, "diagsvault")
+                    Method (_DSM, 4, NotSerialized)
+                    {
+                        If (LEqual (Arg2, Zero)) { Return (Buffer() { 0x03 } ) }
+                        Return (Package() { "address", 0x57 })
+                    }
+                }
             }
         }
 
@@ -17508,7 +17524,7 @@ DefinitionBlock ("", "DSDT", 2, "DELL  ", "CBX3   ", 0x01072009)
     }
 
     Name (ECUP, One)
-    Mutex (EHLD, 0x00)
+    Mutex(EHLD, 0)
     Scope (\)
     {
         Device (CHUB)
@@ -17586,7 +17602,7 @@ DefinitionBlock ("", "DSDT", 2, "DELL  ", "CBX3   ", 0x01072009)
         }
     }
 
-    Mutex (MUTX, 0x00)
+    Mutex(MUTX, 0)
     OperationRegion (PRT0, SystemIO, 0x80, 0x04)
     Field (PRT0, DWordAcc, Lock, Preserve)
     {
@@ -18236,7 +18252,7 @@ DefinitionBlock ("", "DSDT", 2, "DELL  ", "CBX3   ", 0x01072009)
                     Store (0x07D6, OSYS)
                 }
 
-                If (_OSI ("Windows 2009"))
+                If(LOr(_OSI("Darwin"),_OSI("Windows 2009")))
                 {
                     Store (0x07D9, OSYS)
                 }
@@ -31514,31 +31530,22 @@ DefinitionBlock ("", "DSDT", 2, "DELL  ", "CBX3   ", 0x01072009)
         {
             Name (_HID, EisaId ("PNP0103"))  // _HID: Hardware ID
             Name (_UID, Zero)  // _UID: Unique ID
-            Name (BUF0, ResourceTemplate ()
-            {
+            Name (BUF0, ResourceTemplate()
+{
+    IRQNoFlags() { 0, 8, 11, 15 }
+
                 Memory32Fixed (ReadWrite,
                     0xFED00000,         // Address Base
                     0x00000400,         // Address Length
                     _Y31)
             })
-            Method (_STA, 0, NotSerialized)  // _STA: Status
+
+            
+
+            
+            Name (_STA, 0x0F)
+            Method (_CRS, 0, NotSerialized)
             {
-                If (HPTE)
-                {
-                    Return (0x0F)
-                }
-
-                Return (Zero)
-            }
-
-            Method (_CRS, 0, Serialized)  // _CRS: Current Resource Settings
-            {
-                If (HPTE)
-                {
-                    CreateDWordField (BUF0, \_SB.PCI0.LPCB.HPET._Y31._BAS, HPT0)  // _BAS: Base Address
-                    Store (HPTB, HPT0)
-                }
-
                 Return (BUF0)
             }
         }
@@ -31650,8 +31657,7 @@ DefinitionBlock ("", "DSDT", 2, "DELL  ", "CBX3   ", 0x01072009)
                     0x01,               // Alignment
                     0x02,               // Length
                     )
-                IRQNoFlags ()
-                    {2}
+                
             })
         }
 
@@ -31822,10 +31828,9 @@ DefinitionBlock ("", "DSDT", 2, "DELL  ", "CBX3   ", 0x01072009)
                     0x0070,             // Range Minimum
                     0x0070,             // Range Maximum
                     0x01,               // Alignment
-                    0x08,               // Length
+                    0x02,               // Length
                     )
-                IRQNoFlags ()
-                    {8}
+                
             })
         }
 
@@ -31846,8 +31851,7 @@ DefinitionBlock ("", "DSDT", 2, "DELL  ", "CBX3   ", 0x01072009)
                     0x10,               // Alignment
                     0x04,               // Length
                     )
-                IRQNoFlags ()
-                    {0}
+                
             })
         }
 
@@ -32487,7 +32491,7 @@ DefinitionBlock ("", "DSDT", 2, "DELL  ", "CBX3   ", 0x01072009)
 
     Scope (\)
     {
-        Mutex (SMIX, 0x01)
+        Mutex(SMIX, 0)
         Name (SMBA, 0x8AFD8000)
         Name (PSMI, 0x000000B2)
         Method (SNVC, 1, NotSerialized)
@@ -32656,7 +32660,7 @@ DefinitionBlock ("", "DSDT", 2, "DELL  ", "CBX3   ", 0x01072009)
     {
         Device (AMW0)
         {
-            Mutex (WMIX, 0x01)
+            Mutex(WMIX, 0)
             Name (_HID, "PNP0C14")  // _HID: Hardware ID
             Name (_UID, Zero)  // _UID: Unique ID
             Name (_WDG, Buffer (0x64)
@@ -34345,8 +34349,8 @@ DefinitionBlock ("", "DSDT", 2, "DELL  ", "CBX3   ", 0x01072009)
     Scope (\)
     {
         Name (ECRD, Zero)
-        Mutex (ECMX, 0x01)
-        Mutex (ECSX, 0x01)
+        Mutex(ECMX, 0)
+        Mutex(ECSX, 0)
         Method (EISC, 3, NotSerialized)
         {
             Acquire (ECSX, 0xFFFF)
@@ -34443,7 +34447,7 @@ DefinitionBlock ("", "DSDT", 2, "DELL  ", "CBX3   ", 0x01072009)
             Return (Local0)
         }
 
-        Mutex (ECM1, 0x01)
+        Mutex(ECM1, 0)
         Method (ECG6, 2, NotSerialized)
         {
             Acquire (ECM1, 0xFFFF)
@@ -34644,7 +34648,7 @@ DefinitionBlock ("", "DSDT", 2, "DELL  ", "CBX3   ", 0x01072009)
             ECWB (0x05, One)
         }
 
-        Mutex (QSEV, 0x01)
+        Mutex(QSEV, 0)
         Method (EC0A, 1, NotSerialized)
         {
             Acquire (QSEV, 0xFFFF)
@@ -35057,7 +35061,7 @@ DefinitionBlock ("", "DSDT", 2, "DELL  ", "CBX3   ", 0x01072009)
 
     Scope (_SB)
     {
-        Mutex (ECAX, 0x01)
+        Mutex(ECAX, 0)
         Method (EEAC, 2, Serialized)
         {
             Acquire (ECAX, 0xFFFF)
