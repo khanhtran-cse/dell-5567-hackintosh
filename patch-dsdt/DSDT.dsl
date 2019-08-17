@@ -5,13 +5,13 @@
  * 
  * Disassembling to non-symbolic legacy ASL operators
  *
- * Disassembly of DSDT.aml, Fri Aug 16 21:20:15 2019
+ * Disassembly of DSDT.aml, Sat Aug 17 21:59:42 2019
  *
  * Original Table Header:
  *     Signature        "DSDT"
  *     Length           0x00023839 (145465)
  *     Revision         0x02
- *     Checksum         0x4D
+ *     Checksum         0x6E
  *     OEM ID           "DELL  "
  *     OEM Table ID     "CBX3   "
  *     OEM Revision     0x01072009 (17244169)
@@ -111,6 +111,7 @@ DefinitionBlock ("", "DSDT", 2, "DELL  ", "CBX3   ", 0x01072009)
     External (_SB_.PCI0.PEG0.PEGP.SGPO, MethodObj)    // Imported: 2 Arguments
     External (_SB_.PCI0.PEG1.HPME, MethodObj)    // 0 Arguments (from opcode)
     External (_SB_.PCI0.PEG2.HPME, MethodObj)    // 0 Arguments (from opcode)
+    External (_SB_.PCI0.RP01.PXSX, DeviceObj)    // Warning: Unknown object
     External (_SB_.PCI0.RP01.PXSX.WGST, MethodObj)    // 0 Arguments (from opcode)
     External (_SB_.PCI0.RP05.PWRG, UnknownObj)    // Warning: Unknown object
     External (_SB_.PCI0.RP05.PXSX.WGST, MethodObj)    // 0 Arguments (from opcode)
@@ -249,7 +250,7 @@ DefinitionBlock ("", "DSDT", 2, "DELL  ", "CBX3   ", 0x01072009)
     Name (TPMC, 0xFFFFFFFF)
     Name (TPMM, 0xFED40000)
     Name (FTPM, 0xFED40040)
-    Name (PPIM, 0x8AFD9F18)
+    Name (PPIM, 0x7AFD9F18)
     Name (PPIL, 0x1C)
     Name (AMDT, Zero)
     Name (TPMF, One)
@@ -266,7 +267,7 @@ DefinitionBlock ("", "DSDT", 2, "DELL  ", "CBX3   ", 0x01072009)
     Name (TOPM, 0x00000000)
     Name (ROMS, 0xFFE00000)
     Name (VGAF, One)
-    OperationRegion (GNVS, SystemMemory, 0x8AFEB000, 0x06E0)
+    OperationRegion (GNVS, SystemMemory, 0x7AFEB000, 0x06E0)
     Field (GNVS, AnyAcc, Lock, Preserve)
     {
         OSYS,   16, 
@@ -1359,7 +1360,7 @@ DefinitionBlock ("", "DSDT", 2, "DELL  ", "CBX3   ", 0x01072009)
         Offset (0x6E0)
     }
 
-    OperationRegion (EXBU, SystemMemory, 0x8AFF9000, 0x0012)
+    OperationRegion (EXBU, SystemMemory, 0x7AFF9000, 0x0012)
     Field (EXBU, AnyAcc, Lock, Preserve)
     {
         DAT0,   8, 
@@ -1375,14 +1376,14 @@ DefinitionBlock ("", "DSDT", 2, "DELL  ", "CBX3   ", 0x01072009)
         CBID,   16
     }
 
-    OperationRegion (OGNV, SystemMemory, 0x8AFEF000, 0x0002)
+    OperationRegion (OGNV, SystemMemory, 0x7AFEF000, 0x0002)
     Field (OGNV, AnyAcc, Lock, Preserve)
     {
         ISSD,   8, 
         PLFG,   8
     }
 
-    OperationRegion (DEGA, SystemMemory, 0x8AFF0000, 0x0011)
+    OperationRegion (DEGA, SystemMemory, 0x7AFF0000, 0x0011)
     Field (DEGA, AnyAcc, Lock, Preserve)
     {
         DDDR,   8, 
@@ -4138,8 +4139,8 @@ DefinitionBlock ("", "DSDT", 2, "DELL  ", "CBX3   ", 0x01072009)
                 }
                 If (PM0H)
                 {
-                     CreateDWordField (BUF0, \_SB.PCI0._Y0D._LEN, F0LN)  // _LEN: Length
-                     Store (Zero, F0LN)
+                    CreateDWordField (BUF0, \_SB.PCI0._Y0D._LEN, F0LN)  // _LEN: Length
+                    Store (Zero, F0LN)
                 }
 
                 If (LEqual (PM0H, One))
@@ -4412,7 +4413,7 @@ DefinitionBlock ("", "DSDT", 2, "DELL  ", "CBX3   ", 0x01072009)
                     Offset (0x08)
                 }
 
-                OperationRegion (CPSB, SystemMemory, 0x8A44BF18, 0x10)
+                OperationRegion (CPSB, SystemMemory, 0x7A44BF18, 0x10)
                 Field (CPSB, AnyAcc, NoLock, Preserve)
                 {
                     RTCX,   1, 
@@ -5662,7 +5663,7 @@ DefinitionBlock ("", "DSDT", 2, "DELL  ", "CBX3   ", 0x01072009)
 
             Device (RP01)
             {
-                Name (_ADR, 0x001C0004)  // _ADR: Address
+                Name (_ADR, 0x001C0000)  // _ADR: Address
                 OperationRegion (PXCS, PCI_Config, Zero, 0x0480)
                 Field (PXCS, AnyAcc, NoLock, Preserve)
                 {
@@ -5856,26 +5857,10 @@ DefinitionBlock ("", "DSDT", 2, "DELL  ", "CBX3   ", 0x01072009)
                          0x00                                           
                     })
                 }
-
-                Device (PXSX)
-                {
-                    Name (_ADR, Zero)  // _ADR: Address
-                    Method (_PRW, 0, NotSerialized)  // _PRW: Power Resources for Wake
-                    {
-                        Return (GPRW (0x69, 0x04))
-                    }
-
-                    Method (_RMV, 0, NotSerialized)  // _RMV: Removal Status
-                    {
-                        Return (HPCE)
-                    }
-                }
-
                 Method (HPME, 0, Serialized)
                 {
                     If (LAnd (LNotEqual (VDID, 0xFFFFFFFF), LEqual (PMSX, One)))
                     {
-                        Notify (PXSX, 0x02)
                         Store (One, PMSX)
                         Store (One, PSPX)
                     }
@@ -6652,7 +6637,7 @@ DefinitionBlock ("", "DSDT", 2, "DELL  ", "CBX3   ", 0x01072009)
 
             Device (RP05)
             {
-                Name (_ADR, 0x001C0000)  // _ADR: Address
+                Name (_ADR, 0x001C0004)  // _ADR: Address
                 OperationRegion (PXCS, PCI_Config, Zero, 0x0480)
                 Field (PXCS, AnyAcc, NoLock, Preserve)
                 {
@@ -10333,8 +10318,7 @@ DefinitionBlock ("", "DSDT", 2, "DELL  ", "CBX3   ", 0x01072009)
 
     Method (_WAK, 1, NotSerialized)  // _WAK: Wake
     {
-        If (LOr(LLess(Arg0,1),LGreater(Arg0,5))) { Store(3,Arg0) }
-RWAK (Arg0)
+        RWAK (Arg0)
         \_SB.PCI0.NWAK (Arg0)
         \_SB.PCI0.LPCB.SWAK (Arg0)
         WAK (Arg0)
@@ -10803,7 +10787,7 @@ RWAK (Arg0)
         }
     }
 
-    Name (PNVB, 0x8AFF2C98)
+    Name (PNVB, 0x7AFF2C98)
     Name (PNVL, 0x022E)
     If (LEqual (ECR1, One))
     {
@@ -12709,7 +12693,10 @@ RWAK (Arg0)
                 PMES,   1
             }
 
-            
+            Method (_PRW, 0, NotSerialized)  // _PRW: Power Resources for Wake
+            {
+                Return (GPRW (0x6D, 0x04))
+            }
 
             Method (GPEH, 0, NotSerialized)
             {
@@ -12724,7 +12711,6 @@ RWAK (Arg0)
                     Notify (GLAN, 0x02)
                 }
             }
-            Method(_PRW) { Return(Package() { 0x6D, 0 }) }
         }
     }
 
@@ -12756,7 +12742,62 @@ RWAK (Arg0)
             }
 
             Name (XFLT, Zero)
-            
+            Method (_DSM, 4, Serialized)  // _DSM: Device-Specific Method
+            {
+                ADBG ("_DSM")
+                ShiftLeft (XADH, 0x20, Local0)
+                Or (Local0, XADL, Local0)
+                And (Local0, 0xFFFFFFFFFFFFFFF0, Local0)
+                OperationRegion (XMIO, SystemMemory, Local0, 0x9000)
+                Field (XMIO, AnyAcc, Lock, Preserve)
+                {
+                    Offset (0x550), 
+                    PCCS,   1, 
+                        ,   4, 
+                    PPLS,   4, 
+                    PTPP,   1, 
+                    Offset (0x8420), 
+                    PRTM,   2
+                }
+
+                If (PCIC (Arg0))
+                {
+                    Return (PCID (Arg0, Arg1, Arg2, Arg3))
+                }
+
+                If (LEqual (Arg0, ToUUID ("ac340cb7-e901-45bf-b7e6-2b34ec931e23")))
+                {
+                    If (LEqual (Arg1, 0x03))
+                    {
+                        Store (Arg1, XFLT)
+                    }
+
+                    If (LAnd (LGreater (PRTM, Zero), LOr (LEqual (Arg1, 0x05), LEqual (Arg1, 0x06))))
+                    {
+                        ADBG ("SSIC")
+                        If (LOr (LOr (LEqual (PCCS, Zero), LEqual (PTPP, Zero)), LAnd (LGreaterEqual (PPLS, 0x04), LLessEqual (PPLS, 0x0F))))
+                        {
+                            If (LEqual (PPLS, 0x08))
+                            {
+                                Store (One, D3HE)
+                            }
+                            Else
+                            {
+                                Store (Zero, D3HE)
+                            }
+                        }
+                        Else
+                        {
+                            Store (One, D3HE)
+                        }
+                    }
+                }
+
+                Return (Buffer (One)
+                {
+                     0x00                                           
+                })
+            }
 
             Method (_S3D, 0, NotSerialized)  // _S3D: S3 Device State
             {
@@ -13099,21 +13140,6 @@ RWAK (Arg0)
                     }
                 }
             }
-            Method(_PRW) { Return(Package() { 0x6D, 0 }) }
-            Method (_DSM, 4, NotSerialized)
-            {
-                If (LEqual (Arg2, Zero)) { Return (Buffer() { 0x03 } ) }
-                Return (Package()
-                {
-                    "subsystem-id", Buffer() { 0x70, 0x72, 0x00, 0x00 },
-                    "subsystem-vendor-id", Buffer() { 0x86, 0x80, 0x00, 0x00 },
-                    "AAPL,current-available", 2100,
-                    "AAPL,current-extra", 2200,
-                    "AAPL,current-extra-in-sleep", 1600,
-                    "AAPL,device-internal", 0x02,
-                    "AAPL,max-port-current-in-sleep", 2100,
-                })
-            }
         }
     }
 
@@ -13403,7 +13429,10 @@ RWAK (Arg0)
                 }
             }
 
-            
+            Method (_PRW, 0, NotSerialized)  // _PRW: Power Resources for Wake
+            {
+                Return (GPRW (0x6D, 0x04))
+            }
 
             Method (_DSW, 3, NotSerialized)  // _DSW: Device Sleep Wake
             {
@@ -13424,7 +13453,6 @@ RWAK (Arg0)
                     Notify (XDCI, 0x02)
                 }
             }
-            Method(_PRW) { Return(Package() { 0x6D, 0 }) }
         }
     }
 
@@ -13454,7 +13482,10 @@ RWAK (Arg0)
                 Store (Arg0, PMEE)
             }
 
-            
+            Method (_PRW, 0, NotSerialized)  // _PRW: Power Resources for Wake
+            {
+                Return (GPRW (0x6D, 0x04))
+            }
 
             Method (GPEH, 0, NotSerialized)
             {
@@ -13579,22 +13610,6 @@ RWAK (Arg0)
                      0x00                                           
                 })
             }
-            Device (BUS0)
-            {
-                Name (_CID, "smbus")
-                Name (_ADR, Zero)
-                Device (DVL0)
-                {
-                    Name (_ADR, 0x57)
-                    Name (_CID, "diagsvault")
-                    Method (_DSM, 4, NotSerialized)
-                    {
-                        If (LEqual (Arg2, Zero)) { Return (Buffer() { 0x03 } ) }
-                        Return (Package() { "address", 0x57 })
-                    }
-                }
-            }
-            Method(_PRW) { Return(Package() { 0x6D, 0 }) }
         }
 
         Device (SAT0)
@@ -15777,7 +15792,6 @@ RWAK (Arg0)
                     LPD3 (SB1A)
                 }
             }
-            Method(_PRW) { Return(Package() { 0x6D, 0 }) }
         }
     }
 
@@ -17479,7 +17493,7 @@ RWAK (Arg0)
     }
 
     Name (ECUP, One)
-    Mutex(EHLD, 0)
+    Mutex (EHLD, 0x00)
     Scope (\)
     {
         Device (CHUB)
@@ -17557,7 +17571,7 @@ RWAK (Arg0)
         }
     }
 
-    Mutex(MUTX, 0)
+    Mutex (MUTX, 0x00)
     OperationRegion (PRT0, SystemIO, 0x80, 0x04)
     Field (PRT0, DWordAcc, Lock, Preserve)
     {
@@ -18207,7 +18221,7 @@ RWAK (Arg0)
                     Store (0x07D6, OSYS)
                 }
 
-                If(LOr(_OSI("Darwin"),_OSI("Windows 2009")))
+                If (_OSI ("Windows 2009"))
                 {
                     Store (0x07D9, OSYS)
                 }
@@ -31485,22 +31499,31 @@ RWAK (Arg0)
         {
             Name (_HID, EisaId ("PNP0103"))  // _HID: Hardware ID
             Name (_UID, Zero)  // _UID: Unique ID
-            Name (BUF0, ResourceTemplate()
-{
-    IRQNoFlags() { 0, 8, 11, 15 }
-
+            Name (BUF0, ResourceTemplate ()
+            {
                 Memory32Fixed (ReadWrite,
                     0xFED00000,         // Address Base
                     0x00000400,         // Address Length
                     _Y31)
             })
-
-            
-
-            
-            Name (_STA, 0x0F)
-            Method (_CRS, 0, NotSerialized)
+            Method (_STA, 0, NotSerialized)  // _STA: Status
             {
+                If (HPTE)
+                {
+                    Return (0x0F)
+                }
+
+                Return (Zero)
+            }
+
+            Method (_CRS, 0, Serialized)  // _CRS: Current Resource Settings
+            {
+                If (HPTE)
+                {
+                    CreateDWordField (BUF0, \_SB.PCI0.LPCB.HPET._Y31._BAS, HPT0)  // _BAS: Base Address
+                    Store (HPTB, HPT0)
+                }
+
                 Return (BUF0)
             }
         }
@@ -31612,7 +31635,8 @@ RWAK (Arg0)
                     0x01,               // Alignment
                     0x02,               // Length
                     )
-                
+                IRQNoFlags ()
+                    {2}
             })
         }
 
@@ -31783,9 +31807,10 @@ RWAK (Arg0)
                     0x0070,             // Range Minimum
                     0x0070,             // Range Maximum
                     0x01,               // Alignment
-                    0x02,               // Length
+                    0x08,               // Length
                     )
-                
+                IRQNoFlags ()
+                    {8}
             })
         }
 
@@ -31806,7 +31831,8 @@ RWAK (Arg0)
                     0x10,               // Alignment
                     0x04,               // Length
                     )
-                
+                IRQNoFlags ()
+                    {0}
             })
         }
 
@@ -31887,7 +31913,7 @@ RWAK (Arg0)
         })
     }
 
-    OperationRegion (ABNV, SystemMemory, 0x8AFDA000, 0x0013)
+    OperationRegion (ABNV, SystemMemory, 0x7AFDA000, 0x0013)
     Field (ABNV, AnyAcc, Lock, Preserve)
     {
         ABMA,   64, 
@@ -32446,8 +32472,8 @@ RWAK (Arg0)
 
     Scope (\)
     {
-        Mutex(SMIX, 0)
-        Name (SMBA, 0x8AFD8000)
+        Mutex (SMIX, 0x01)
+        Name (SMBA, 0x7AFD8000)
         Name (PSMI, 0x000000B2)
         Method (SNVC, 1, NotSerialized)
         {
@@ -32615,7 +32641,7 @@ RWAK (Arg0)
     {
         Device (AMW0)
         {
-            Mutex(WMIX, 0)
+            Mutex (WMIX, 0x01)
             Name (_HID, "PNP0C14")  // _HID: Hardware ID
             Name (_UID, Zero)  // _UID: Unique ID
             Name (_WDG, Buffer (0x64)
@@ -33528,18 +33554,15 @@ RWAK (Arg0)
 
         Method (BRT6, 2, NotSerialized)
         {
-            
             If (LEqual (Arg0, One))
             {
-                // Brightness Up
-                Notify (^^LPCB.PS2K, 0x0406)
-            }
-            If (And (Arg0, 0x02))
-            {
-                // Brightness Down
-                Notify (^^LPCB.PS2K, 0x0405)
+                Notify (LCD, 0x86)
             }
 
+            If (And (Arg0, 0x02))
+            {
+                Notify (LCD, 0x87)
+            }
         }
 
         Method (ILID, 0, NotSerialized)
@@ -34307,8 +34330,8 @@ RWAK (Arg0)
     Scope (\)
     {
         Name (ECRD, Zero)
-        Mutex(ECMX, 0)
-        Mutex(ECSX, 0)
+        Mutex (ECMX, 0x01)
+        Mutex (ECSX, 0x01)
         Method (EISC, 3, NotSerialized)
         {
             Acquire (ECSX, 0xFFFF)
@@ -34405,7 +34428,7 @@ RWAK (Arg0)
             Return (Local0)
         }
 
-        Mutex(ECM1, 0)
+        Mutex (ECM1, 0x01)
         Method (ECG6, 2, NotSerialized)
         {
             Acquire (ECM1, 0xFFFF)
@@ -34606,7 +34629,7 @@ RWAK (Arg0)
             ECWB (0x05, One)
         }
 
-        Mutex(QSEV, 0)
+        Mutex (QSEV, 0x01)
         Method (EC0A, 1, NotSerialized)
         {
             Acquire (QSEV, 0xFFFF)
@@ -35019,7 +35042,7 @@ RWAK (Arg0)
 
     Scope (_SB)
     {
-        Mutex(ECAX, 0)
+        Mutex (ECAX, 0x01)
         Method (EEAC, 2, Serialized)
         {
             Acquire (ECAX, 0xFFFF)
@@ -35488,7 +35511,33 @@ RWAK (Arg0)
 
     Scope (_SB.PCI0.XHC)
     {
-        
+        Method (_PRW, 0, NotSerialized)  // _PRW: Power Resources for Wake
+        {
+            Store (UPRW (), Local0)
+            If (LEqual (Local0, 0x03))
+            {
+                Return (Package (0x02)
+                {
+                    0x6D, 
+                    0x03
+                })
+            }
+
+            If (LEqual (Local0, One))
+            {
+                Return (Package (0x02)
+                {
+                    0x6D, 
+                    One
+                })
+            }
+
+            Return (Package (0x02)
+            {
+                0x6D, 
+                Zero
+            })
+        }
     }
 
     Scope (_SB.PCI0.SAT0.PRT1)

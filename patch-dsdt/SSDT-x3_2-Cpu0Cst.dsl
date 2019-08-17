@@ -5,7 +5,7 @@
  * 
  * Disassembling to non-symbolic legacy ASL operators
  *
- * Disassembly of SSDT-x3_2-Cpu0Cst.aml, Fri Aug 16 21:20:15 2019
+ * Disassembly of SSDT-x3_2-Cpu0Cst.aml, Sat Aug 17 21:59:42 2019
  *
  * Original Table Header:
  *     Signature        "SSDT"

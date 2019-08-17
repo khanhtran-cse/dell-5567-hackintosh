@@ -5,7 +5,7 @@
  * 
  * Disassembling to non-symbolic legacy ASL operators
  *
- * Disassembly of SSDT-7-SgUlt.aml, Wed Aug 14 17:12:54 2019
+ * Disassembly of SSDT-7-SgUlt.aml, Sat Aug 17 21:59:42 2019
  *
  * Original Table Header:
  *     Signature        "SSDT"
@@ -146,9 +146,6 @@ DefinitionBlock ("", "SSDT", 2, "SgRef", "SgUlt", 0x00001000)
         Method (_INI, 0, NotSerialized)  // _INI: Initialize
         {
             Store (Zero, \_SB.PCI0.RP01.PEGP._ADR)
-            //added to turn nvidia/radeon off
-            External(\_SB.PCI0.RP01.PEGP._OFF, MethodObj)
-            _OFF()
         }
     }
 }
