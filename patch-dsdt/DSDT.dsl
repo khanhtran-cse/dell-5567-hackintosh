@@ -12709,10 +12709,7 @@ RWAK (Arg0)
                 PMES,   1
             }
 
-            Method (_PRW, 0, NotSerialized)  // _PRW: Power Resources for Wake
-            {
-                Return (GPRW (0x6D, 0x04))
-            }
+            
 
             Method (GPEH, 0, NotSerialized)
             {
@@ -12727,6 +12724,7 @@ RWAK (Arg0)
                     Notify (GLAN, 0x02)
                 }
             }
+            Method(_PRW) { Return(Package() { 0x6D, 0 }) }
         }
     }
 
@@ -12758,62 +12756,7 @@ RWAK (Arg0)
             }
 
             Name (XFLT, Zero)
-            Method (_DSM, 4, Serialized)  // _DSM: Device-Specific Method
-            {
-                ADBG ("_DSM")
-                ShiftLeft (XADH, 0x20, Local0)
-                Or (Local0, XADL, Local0)
-                And (Local0, 0xFFFFFFFFFFFFFFF0, Local0)
-                OperationRegion (XMIO, SystemMemory, Local0, 0x9000)
-                Field (XMIO, AnyAcc, Lock, Preserve)
-                {
-                    Offset (0x550), 
-                    PCCS,   1, 
-                        ,   4, 
-                    PPLS,   4, 
-                    PTPP,   1, 
-                    Offset (0x8420), 
-                    PRTM,   2
-                }
-
-                If (PCIC (Arg0))
-                {
-                    Return (PCID (Arg0, Arg1, Arg2, Arg3))
-                }
-
-                If (LEqual (Arg0, ToUUID ("ac340cb7-e901-45bf-b7e6-2b34ec931e23")))
-                {
-                    If (LEqual (Arg1, 0x03))
-                    {
-                        Store (Arg1, XFLT)
-                    }
-
-                    If (LAnd (LGreater (PRTM, Zero), LOr (LEqual (Arg1, 0x05), LEqual (Arg1, 0x06))))
-                    {
-                        ADBG ("SSIC")
-                        If (LOr (LOr (LEqual (PCCS, Zero), LEqual (PTPP, Zero)), LAnd (LGreaterEqual (PPLS, 0x04), LLessEqual (PPLS, 0x0F))))
-                        {
-                            If (LEqual (PPLS, 0x08))
-                            {
-                                Store (One, D3HE)
-                            }
-                            Else
-                            {
-                                Store (Zero, D3HE)
-                            }
-                        }
-                        Else
-                        {
-                            Store (One, D3HE)
-                        }
-                    }
-                }
-
-                Return (Buffer (One)
-                {
-                     0x00                                           
-                })
-            }
+            
 
             Method (_S3D, 0, NotSerialized)  // _S3D: S3 Device State
             {
@@ -13156,6 +13099,21 @@ RWAK (Arg0)
                     }
                 }
             }
+            Method(_PRW) { Return(Package() { 0x6D, 0 }) }
+            Method (_DSM, 4, NotSerialized)
+            {
+                If (LEqual (Arg2, Zero)) { Return (Buffer() { 0x03 } ) }
+                Return (Package()
+                {
+                    "subsystem-id", Buffer() { 0x70, 0x72, 0x00, 0x00 },
+                    "subsystem-vendor-id", Buffer() { 0x86, 0x80, 0x00, 0x00 },
+                    "AAPL,current-available", 2100,
+                    "AAPL,current-extra", 2200,
+                    "AAPL,current-extra-in-sleep", 1600,
+                    "AAPL,device-internal", 0x02,
+                    "AAPL,max-port-current-in-sleep", 2100,
+                })
+            }
         }
     }
 
@@ -13445,10 +13403,7 @@ RWAK (Arg0)
                 }
             }
 
-            Method (_PRW, 0, NotSerialized)  // _PRW: Power Resources for Wake
-            {
-                Return (GPRW (0x6D, 0x04))
-            }
+            
 
             Method (_DSW, 3, NotSerialized)  // _DSW: Device Sleep Wake
             {
@@ -13469,6 +13424,7 @@ RWAK (Arg0)
                     Notify (XDCI, 0x02)
                 }
             }
+            Method(_PRW) { Return(Package() { 0x6D, 0 }) }
         }
     }
 
@@ -13498,10 +13454,7 @@ RWAK (Arg0)
                 Store (Arg0, PMEE)
             }
 
-            Method (_PRW, 0, NotSerialized)  // _PRW: Power Resources for Wake
-            {
-                Return (GPRW (0x6D, 0x04))
-            }
+            
 
             Method (GPEH, 0, NotSerialized)
             {
@@ -13641,6 +13594,7 @@ RWAK (Arg0)
                     }
                 }
             }
+            Method(_PRW) { Return(Package() { 0x6D, 0 }) }
         }
 
         Device (SAT0)
@@ -15823,6 +15777,7 @@ RWAK (Arg0)
                     LPD3 (SB1A)
                 }
             }
+            Method(_PRW) { Return(Package() { 0x6D, 0 }) }
         }
     }
 
@@ -33573,15 +33528,18 @@ RWAK (Arg0)
 
         Method (BRT6, 2, NotSerialized)
         {
+            
             If (LEqual (Arg0, One))
             {
-                Notify (LCD, 0x86)
+                // Brightness Up
+                Notify (^^LPCB.PS2K, 0x0406)
             }
-
             If (And (Arg0, 0x02))
             {
-                Notify (LCD, 0x87)
+                // Brightness Down
+                Notify (^^LPCB.PS2K, 0x0405)
             }
+
         }
 
         Method (ILID, 0, NotSerialized)
@@ -35530,33 +35488,7 @@ RWAK (Arg0)
 
     Scope (_SB.PCI0.XHC)
     {
-        Method (_PRW, 0, NotSerialized)  // _PRW: Power Resources for Wake
-        {
-            Store (UPRW (), Local0)
-            If (LEqual (Local0, 0x03))
-            {
-                Return (Package (0x02)
-                {
-                    0x6D, 
-                    0x03
-                })
-            }
-
-            If (LEqual (Local0, One))
-            {
-                Return (Package (0x02)
-                {
-                    0x6D, 
-                    One
-                })
-            }
-
-            Return (Package (0x02)
-            {
-                0x6D, 
-                Zero
-            })
-        }
+        
     }
 
     Scope (_SB.PCI0.SAT0.PRT1)
