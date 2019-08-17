@@ -33554,15 +33554,18 @@ DefinitionBlock ("", "DSDT", 2, "DELL  ", "CBX3   ", 0x01072009)
 
         Method (BRT6, 2, NotSerialized)
         {
+            
             If (LEqual (Arg0, One))
             {
-                Notify (LCD, 0x86)
+                // Brightness Up
+                Notify (^^LPCB.PS2K, 0x0406)
             }
-
             If (And (Arg0, 0x02))
             {
-                Notify (LCD, 0x87)
+                // Brightness Down
+                Notify (^^LPCB.PS2K, 0x0405)
             }
+
         }
 
         Method (ILID, 0, NotSerialized)
