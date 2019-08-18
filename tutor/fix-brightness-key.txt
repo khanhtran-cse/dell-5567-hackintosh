@@ -1,0 +1,2 @@
+You need to patch BRT6 as per guide.
+You will also need OSID->XSID, _OSI->XOSI (in that order), plus SSDT-XOSI.aml.
