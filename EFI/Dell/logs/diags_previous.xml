@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
   <SupportAssistPrebootDiagnosticLog>
     <Schema>1.0.0</Schema>
-    <LogNumber>15</LogNumber>
-    <LogTimeStamp>08/18/2019 02:46:22</LogTimeStamp>
+    <LogNumber>14</LogNumber>
+    <LogTimeStamp>08/18/2019 02:41:28</LogTimeStamp>
     <ePSA_Data>
-      <Result>Abort</Result>
-      <DevicesTested>Memory, Hard Drive</DevicesTested>
+      <Result>Not Reported</Result>
+      <ReturnCode>BOOT_HOST_OS</ReturnCode>
       <ePSAFullVersion>4306.12</ePSAFullVersion>
       <ePSAInvocationCount>1</ePSAInvocationCount>
     </ePSA_Data>
     <BIOS_Data>
-      <ErrorCategory>NO_BOOT</ErrorCategory>
+      <ErrorCategory>BATTERY</ErrorCategory>
+      <ErrorMessage><![CDATA[WARNING: Battery is low.
+]]></ErrorMessage>
+      <FRU_String><![CDATA[Unknown Battery]]></FRU_String>
       <SOS_Available>FALSE</SOS_Available>
       <TimeOutSeconds>0</TimeOutSeconds>
     </BIOS_Data>

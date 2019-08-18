@@ -1,0 +1,2 @@
+Change Devices/Properties/bufferframe-1-pipe to 12
+Change graphic id.
