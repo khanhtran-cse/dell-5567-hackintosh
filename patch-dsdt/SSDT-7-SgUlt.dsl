@@ -146,6 +146,9 @@ DefinitionBlock ("", "SSDT", 2, "SgRef", "SgUlt", 0x00001000)
         Method (_INI, 0, NotSerialized)  // _INI: Initialize
         {
             Store (Zero, \_SB.PCI0.RP01.PEGP._ADR)
+            //added to turn nvidia/radeon off
+            External(\_SB.PCI0.RP01.PEGP._OFF, MethodObj)
+            _OFF()
         }
     }
 }

@@ -212,7 +212,7 @@
 		<key>#DefaultVolume</key>
 		<string>LastBootedVolume</string>
 		<key>Arguments</key>
-		<string>dart=0 nv_disable=1 lilucpu=9 kext-dev-mode=1 -disablegfxfirmware -igfxnohdmi</string>
+		<string>dart=0 nv_disable=1 lilucpu=9 alcid=21 -v kext-dev-mode=1</string>
 		<key>DefaultVolume</key>
 		<string>LastBootedVolume</string>
 		<key>NeverHibernate</key>
@@ -464,15 +464,15 @@
 			</dict>
 			<key>PciRoot(0)/Pci(0x1f,3)</key>
 			<dict>
-				<key>PinConfigurations</key>
+				<key>#PinConfigurations</key>
 				<data>
 				</data>
+				<key>#layout-id</key>
+				<integer>3</integer>
+				<key>#no-controller-patch</key>
+				<integer>1</integer>
 				<key>hda-gfx</key>
 				<string>onboard-1</string>
-				<key>layout-id</key>
-				<integer>21</integer>
-				<key>no-controller-patch</key>
-				<integer>1</integer>
 			</dict>
 		</dict>
 		<key>USB</key>
@@ -689,8 +689,6 @@
 	</dict>
 	<key>SystemParameters</key>
 	<dict>
-		<key>CustomUUID</key>
-		<string>976D7DCC-F049-4B58-8637-D6F71BD60C71</string>
 		<key>InjectKexts</key>
 		<string>Detect</string>
 	</dict>
