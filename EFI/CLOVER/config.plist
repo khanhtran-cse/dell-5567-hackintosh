@@ -212,7 +212,7 @@
 		<key>#DefaultVolume</key>
 		<string>LastBootedVolume</string>
 		<key>Arguments</key>
-		<string>dart=0 nv_disable=1 lilucpu=9 kext-dev-mode=1 -disablegfxfirmware -igfxnohdmi</string>
+		<string>dart=0 nv_disable=1 lilucpu=9 kext-dev-mode=1</string>
 		<key>DefaultVolume</key>
 		<string>LastBootedVolume</string>
 		<key>NeverHibernate</key>
@@ -365,11 +365,6 @@
 				<string></string>
 				<key>#1 0306-&gt;0105</key>
 				<string>0x591b0000, 0105 instead of 0306, HDMI</string>
-				<key>#1 framebuffer-con1-alldata</key>
-				<data>
-				AQUKAAAIAACHAQAAAgQKAAAIAACHAQAA/wAAAAEAAAAg
-				AAAA
-				</data>
 				<key>#1 framebuffer-con1-enable</key>
 				<integer>1</integer>
 				<key>#2 0204-&gt;0105</key>
@@ -398,10 +393,6 @@
 				<key>#framebuffer-con0-type</key>
 				<data>
 				AAQAAA==
-				</data>
-				<key>#framebuffer-con1-flags</key>
-				<data>
-				hwEAAA==
 				</data>
 				<key>#framebuffer-con2-enable</key>
 				<integer>1</integer>
@@ -439,8 +430,17 @@
 				<data>
 				FlkAAA==
 				</data>
+				<key>framebuffer-con1-alldata</key>
+				<data>
+				AQUKAAAIAACHAQAAAgQKAAAIAACHAQAA/wAAAAEAAAAg
+				AAAA
+				</data>
 				<key>framebuffer-con1-enable</key>
 				<integer>1</integer>
+				<key>framebuffer-con1-flags</key>
+				<data>
+				hwEAAA==
+				</data>
 				<key>framebuffer-con1-pipe</key>
 				<data>
 				EgAAAA==
@@ -470,7 +470,7 @@
 				<key>hda-gfx</key>
 				<string>onboard-1</string>
 				<key>layout-id</key>
-				<integer>21</integer>
+				<integer>13</integer>
 				<key>no-controller-patch</key>
 				<integer>1</integer>
 			</dict>

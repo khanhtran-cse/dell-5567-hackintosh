@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
   <SupportAssistPrebootDiagnosticLog>
     <Schema>1.0.0</Schema>
-    <LogNumber>15</LogNumber>
-    <LogTimeStamp>08/18/2019 02:46:22</LogTimeStamp>
+    <LogNumber>16</LogNumber>
+    <LogTimeStamp>08/21/2019 06:55:46</LogTimeStamp>
     <ePSA_Data>
       <Result>Abort</Result>
       <DevicesTested>Memory, Hard Drive</DevicesTested>
       <ePSAFullVersion>4306.12</ePSAFullVersion>
-      <ePSAInvocationCount>1</ePSAInvocationCount>
+      <ePSAInvocationCount>2</ePSAInvocationCount>
     </ePSA_Data>
     <BIOS_Data>
       <ErrorCategory>NO_BOOT</ErrorCategory>
