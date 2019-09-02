@@ -28,21 +28,32 @@ Dell 5567 - Hackintosh
 
 1. Card reader
 2. HDMI Audio
-3. FAN Speed
+3. FAN Speed Monitor
 
-## UEFI drivers
+## Instruction
 
-Install the following driver to EFI/CLOVER folder:
+1. Install Clover Bootloader (version v2.5k r5058) with following drivers (to EFI/CLOVER/drivers/UEFI/):
+- ApfsDriverLoader.efi
+- AppleUiSupport.efi
+- AptioInputFix.efi
+- AudioDxe.efi
+- DataHubDex.efi
+- Fat.efi
+- FSInjects.efi
+- NTFS-64.efi
+- OsxAptioFixDrv.efi
+- PartitionDxe-64.efi
+- SMCHelper.efi
+- UsbKbDxe.efi
+- VBoxExt4.efi
+- VBoxHfs.efi
+- VirtualSmc.efi
 
-- ApfsDriverLoader
-- AppleImageLoader
-- AptioMemmoryFix
-- DataHubDxe
-- FSInject
-- OxsAptioFixDrv
-- PartitionDxe
-- SMCHelper
-- VBoxHfs
+2. Copy ```config.plist``` to ```EFI/CLOVER/```.
+3. Copy kext from ```kexts/``` to ```EFI/CLOVER/kexts/Other/```.
+4. Copy ```ACPI/patched``` to ```EFI/CLOVER/ACPI/patched`.
+5. Install ```ComboJact``` to fix headphone mic.
+6. (Optional) Use guide in ```Tutorials``` to fix some other problems.
 
 ## Fix problems
 
