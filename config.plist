@@ -17,13 +17,13 @@
 				<key>Comment-IRQ Fix</key>
 				<string>The following fixes may be needed for onboard audio/USB/etc</string>
 				<key>FixHPET</key>
-				<true/>
+				<false/>
 				<key>FixIPIC</key>
-				<true/>
+				<false/>
 				<key>FixRTC</key>
-				<true/>
+				<false/>
 				<key>FixTMR</key>
-				<true/>
+				<false/>
 			</dict>
 			<key>Patches</key>
 			<array>
@@ -73,7 +73,7 @@
 					<key>Comment</key>
 					<string>change EC0 to EC</string>
 					<key>Disabled</key>
-					<false/>
+					<true/>
 					<key>Find</key>
 					<data>
 					RUMwXw==
@@ -167,6 +167,48 @@
 					SUdQVQ==
 					</data>
 				</dict>
+				<dict>
+					<key>Comment</key>
+					<string>change PCI0.VID to IGPU #1 (Thinkpad)</string>
+					<key>Disabled</key>
+					<false/>
+					<key>Find</key>
+					<data>
+					UENJMFZJRF8=
+					</data>
+					<key>Replace</key>
+					<data>
+					UENJMElHUFU=
+					</data>
+				</dict>
+				<dict>
+					<key>Comment</key>
+					<string>change PCI0.VID to IGPU #2 (Thinkpad)</string>
+					<key>Disabled</key>
+					<false/>
+					<key>Find</key>
+					<data>
+					VklEXwhfQURSDAAAAgA=
+					</data>
+					<key>Replace</key>
+					<data>
+					SUdQVQhfQURSDAAAAgA=
+					</data>
+				</dict>
+				<dict>
+					<key>Comment</key>
+					<string>0x191B0000 Connector Patch by Hackintool (credit headkaze) </string>
+					<key>Disabled</key>
+					<false/>
+					<key>Find</key>
+					<data>
+					qqqqqsqqqqquqsqqqqrqrKqqqq6qqqqq
+					</data>
+					<key>Replace</key>
+					<data>
+					qqqqqsqqqqqqrKqqqq6qyqqqquqqqqo=
+					</data>
+				</dict>
 			</array>
 		</dict>
 		<key>DisabledAML</key>
@@ -212,9 +254,7 @@
 		<key>#DefaultVolume</key>
 		<string>LastBootedVolume</string>
 		<key>Arguments</key>
-		<string>nv_disable=1 lilucpu=9 kext-dev-mode=1</string>
-		<key>DefaultVolume</key>
-		<string>LastBootedVolume</string>
+		<string>dart=0 nv_disable=1 -cdfon -igfxnohdmi lilucpu=8</string>
 		<key>NeverHibernate</key>
 		<true/>
 		<key>Secure</key>
@@ -223,7 +263,7 @@
 		<integer>5</integer>
 	</dict>
 	<key>Comment</key>
-	<string>This file is for 10.12.6+ with native KabyLake support</string>
+	<string>This file is for spoofing KabyLake as Skylake (requried prior to 10.12.6)</string>
 	<key>Devices</key>
 	<dict>
 		<key>AddProperties</key>
@@ -345,9 +385,9 @@
 		<key>FakeID</key>
 		<dict>
 			<key>#IntelGFX</key>
-			<string>0x59168086</string>
+			<string>0x19168086</string>
 			<key>#Kaby Lake-Comment</key>
-			<string>To avoid automatic Clover fake device-id (Skylake) injection</string>
+			<string>Kaby Lake HD620 graphics supportable by using Skylake device-id</string>
 		</dict>
 		<key>Properties</key>
 		<dict>
@@ -363,28 +403,10 @@
 				<string></string>
 				<key>## @3 HDMI</key>
 				<string></string>
-				<key>#1 0306-&gt;0105</key>
-				<string>0x591b0000, 0105 instead of 0306, HDMI</string>
-				<key>#1 framebuffer-con1-enable</key>
-				<integer>1</integer>
-				<key>#2 0204-&gt;0105</key>
-				<string>0x591b0000, 0105 instead of 0204, HDMI</string>
-				<key>#2 framebuffer-con1-alldata</key>
-				<data>
-				AQUKAAAIAACHAQAAAwYKAAAEAACHAQAA/wAAAAEAAAAg
-				AAAA
-				</data>
-				<key>#2 framebuffer-con1-enable</key>
-				<integer>1</integer>
-				<key>#3 framebuffer-con1-alldata</key>
-				<data>
-				/wAAAAEAAAAgAAAA/wAAAAEAAAAgAAAA/wAAAAEAAAAg
-				AAAA
-				</data>
-				<key>#3 framebuffer-con1-enable</key>
-				<integer>1</integer>
-				<key>#3 no external</key>
-				<string>0x591b0000, eliminate all external ports (0204 and 0306)</string>
+				<key>## patch0</key>
+				<string>Enable lid wake for 0x19260002 credit syscl/lighting/Yating Zhou</string>
+				<key>## patch1</key>
+				<string>Enable lid wake for 0x19260004 credit syscl/lighting/Yating Zhou</string>
 				<key>#AAPL00,override-no-edid</key>
 				<data>
 				</data>
@@ -393,11 +415,6 @@
 				<key>#framebuffer-con0-type</key>
 				<data>
 				AAQAAA==
-				</data>
-				<key>#framebuffer-con1-alldata</key>
-				<data>
-				AQUKAAAIAACHAQAAAgQKAAAIAACHAQAA/wAAAAEAAAAg
-				AAAA
 				</data>
 				<key>#framebuffer-con1-flags</key>
 				<data>
@@ -415,7 +432,7 @@
 				</data>
 				<key>#framebuffer-con2-type</key>
 				<data>
-				AAQAAA==
+				AAgAAA==
 				</data>
 				<key>#framebuffer-con3-enable</key>
 				<integer>1</integer>
@@ -431,15 +448,33 @@
 				<data>
 				AAgAAA==
 				</data>
+				<key>#framebuffer-patch0-enable</key>
+				<integer>1</integer>
+				<key>#framebuffer-patch0-find</key>
+				<data>
+				ChMDAAAABgAAAAAAAAAAAA==
+				</data>
+				<key>#framebuffer-patch0-replace</key>
+				<data>
+				DxMDAAAABgAAAAAAAAAAAA==
+				</data>
+				<key>#framebuffer-patch1-enable</key>
+				<integer>1</integer>
+				<key>#framebuffer-patch1-find</key>
+				<data>
+				CgsDAAAHBgADAAAABAAAAA==
+				</data>
+				<key>#framebuffer-patch1-replace</key>
+				<data>
+				DwsDAAAHBgADAAAABAAAAA==
+				</data>
 				<key>AAPL,ig-platform-id</key>
 				<data>
-				AADAhw==
+				AAAbGQ==
 				</data>
-				<key>AAPL,slot-name</key>
-				<string>Internal@0,2,0</string>
 				<key>device-id</key>
 				<data>
-				FlkAAA==
+				FhkAAA==
 				</data>
 				<key>framebuffer-con1-enable</key>
 				<integer>1</integer>
@@ -529,8 +564,6 @@
 		<array>
 			<string>Preboot</string>
 		</array>
-		<key>Language</key>
-		<string>en:0</string>
 		<key>Mouse</key>
 		<dict>
 			<key>Enabled</key>
@@ -547,8 +580,6 @@
 			<key>Tool</key>
 			<true/>
 		</dict>
-		<key>ScreenResolution</key>
-		<string>1920x1080</string>
 		<key>Theme</key>
 		<string>BGM</string>
 	</dict>
@@ -560,7 +591,19 @@
 			<false/>
 		</dict>
 		<key>#ig-platform-id</key>
-		<string>0x591b0000</string>
+		<string>0x191b0000</string>
+		<key>EDID</key>
+		<dict>
+			<key>Custom</key>
+			<data>
+			AP///////wAJ5boGAAAAAAEaAQSVIhN4ArCQl1hUkiYdUFQAAAAB
+			AQEBAQEBAQEBAQEBAQEBPDeA3nA4FEAwIDYAWMEQAAAaAAAAAAAA
+			AAAAAAAAAAAAAAAAAAAA/gBCT0UgQ1EKICAgICAgAAAA/gBOVDE1
+			NkZITS1ONDEKAP8=
+			</data>
+			<key>Inject</key>
+			<true/>
+		</dict>
 		<key>Inject</key>
 		<dict>
 			<key>ATI</key>
@@ -573,12 +616,20 @@
 	</dict>
 	<key>KernelAndKextPatches</key>
 	<dict>
+		<key>#Kaby Lake-Comment</key>
+		<string>Kaby Lake CPU supportable by using CPUID from Skylake</string>
 		<key>AppleRTC</key>
 		<true/>
 		<key>DellSMBIOSPatch</key>
-		<true/>
-		<key>KernelLapic</key>
 		<false/>
+		<key>FakeCPUID</key>
+		<string>0x0506e3</string>
+		<key>ForceKextsToLoad</key>
+		<array>
+			<string>\System\Library\Extensions\IONetworkingFamily.kext</string>
+		</array>
+		<key>KernelLapic</key>
+		<true/>
 		<key>KernelPm</key>
 		<true/>
 		<key>KernelToPatch</key>
@@ -641,17 +692,17 @@
 	<key>SMBIOS</key>
 	<dict>
 		<key>BiosReleaseDate</key>
-		<string>05/28/2019</string>
+		<string>06/17/2019</string>
 		<key>BiosVendor</key>
 		<string>Apple Inc.</string>
 		<key>BiosVersion</key>
-		<string>MBP141.88Z.F000.B00.1905281616</string>
+		<string>MBP131.88Z.F000.B00.1906171613</string>
 		<key>Board-ID</key>
-		<string>Mac-B4831CEBD52A0C4C</string>
+		<string>Mac-473D31EABEB93F9B</string>
 		<key>BoardManufacturer</key>
 		<string>Apple Inc.</string>
 		<key>BoardSerialNumber</key>
-		<string>C02745303GUHWVPCB</string>
+		<string>C02619300QXHMHKJC</string>
 		<key>BoardType</key>
 		<integer>10</integer>
 		<key>BoardVersion</key>
@@ -663,7 +714,7 @@
 		<key>ChassisType</key>
 		<string>0x09</string>
 		<key>EfiVersion</key>
-		<string>196.0.0.0.0</string>
+		<string>236.0.0.0.0</string>
 		<key>Family</key>
 		<string>MacBook Pro</string>
 		<key>FirmwareFeatures</key>
@@ -679,20 +730,16 @@
 		<key>PlatformFeature</key>
 		<string>0x1A</string>
 		<key>ProductName</key>
-		<string>MacBookPro14,1</string>
+		<string>MacBookPro13,1</string>
 		<key>SerialNumber</key>
-		<string>C02VN0SJHV29</string>
+		<string>C02RP0VJGVC1</string>
 		<key>SmUUID</key>
-		<string>6E773832-3329-4503-916F-D86E6062AAAF</string>
-		<key>Trust</key>
-		<true/>
+		<string>DDDC168F-BD7C-4724-9818-1D1CE3B09611</string>
 		<key>Version</key>
 		<string>1.0</string>
 	</dict>
 	<key>SystemParameters</key>
 	<dict>
-		<key>CustomUUID</key>
-		<string>976D7DCC-F049-4B58-8637-D6F71BD60C71</string>
 		<key>InjectKexts</key>
 		<string>Detect</string>
 	</dict>
